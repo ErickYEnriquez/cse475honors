@@ -22,7 +22,7 @@ test_set, train_set = torch.utils.data.random_split(dataset, [0.2,0.8])
 trainloader = torch.utils.data.DataLoader(train_set,batch_size=4,shuffle=False)
 testloader = torch.utils.data.DataLoader(test_set,batch_size=4,shuffle=False)
 
-learning_rate = 0.05
+learning_rate = 0.001
 batch_size = 4
 epoch_size = 40
 
@@ -54,12 +54,13 @@ class CNN(nn.Module):
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 cnn = CNN().to(device)
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(cnn.parameters(), lr=learning_rate)
+optimizer = optim.Adam(cnn.parameters(), lr=learning_rate)
 
 cnn.train() 
 for epoch in range(epoch_size):
 
     loss = 0.0 
+    print("epoch: ", epoch)
 
     for i, data in enumerate(trainloader, 0):
         inputs, labels = data
